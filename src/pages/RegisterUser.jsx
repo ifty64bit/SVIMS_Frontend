@@ -1,7 +1,4 @@
-import { useRef } from "react";
 import { Button, Avatar, MenuItem } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Formik, Field, Form } from "formik";
 import { TextField, Select } from "formik-mui";
 import * as Yup from "yup";
@@ -25,7 +22,6 @@ const RegistrationSchema = Yup.object().shape({
 });
 
 function RegisterUser() {
-    const uploadField = useRef(null);
     return (
         <div className="w-full mt-16 flex justify-center">
             <Formik
@@ -43,88 +39,103 @@ function RegisterUser() {
                 validationSchema={RegistrationSchema}
                 onSubmit={(values) => console.log(values)}
             >
-                <Form>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Field
-                            component={TextField}
-                            name="first_name"
-                            type="text"
-                            label="First Name"
-                        />
-                        <Field
-                            component={TextField}
-                            name="last_name"
-                            type="text"
-                            label="Last Name"
-                        />
-                        <Field
-                            component={TextField}
-                            name="email"
-                            type="email"
-                            label="Email"
-                            className="col-span-2"
-                        />
-                        <div className="relative">
-                            <Button variant="contained" className="">
-                                Upload PhotoS
-                            </Button>
+                {({ values, setFieldValue }) => (
+                    <Form>
+                        <div className="grid grid-cols-2 gap-4">
                             <Field
-                                ref={uploadField}
-                                accept="image/*"
-                                name="photo"
-                                type="file"
-                                className="opacity-0 z-10 absolute inset-0"
+                                component={TextField}
+                                name="first_name"
+                                type="text"
+                                label="First Name"
                             />
-                        </div>
-                        <Avatar src="" />
-                        <Field
-                            component={TextField}
-                            name="phone"
-                            type="number"
-                            label="Phone"
-                        />
-                        <Field
-                            component={Select}
-                            name="blood_group"
-                            label="Blood Group"
-                        >
-                            <MenuItem value="">None</MenuItem>
-                            <MenuItem value="A+">A+</MenuItem>
-                            <MenuItem value="A-">A-</MenuItem>
-                            <MenuItem value="B+">B+</MenuItem>
-                            <MenuItem value="B-">B-</MenuItem>
-                            <MenuItem value="AB+">AB+</MenuItem>
-                            <MenuItem value="AB-">AB-</MenuItem>
-                            <MenuItem value="O+">O+</MenuItem>
-                            <MenuItem value="O-">O-</MenuItem>
-                        </Field>
-                        <Field
-                            component={TextField}
-                            name="nid"
-                            type="number"
-                            label="NID Number"
-                        />
+                            <Field
+                                component={TextField}
+                                name="last_name"
+                                type="text"
+                                label="Last Name"
+                            />
+                            <Field
+                                component={TextField}
+                                name="email"
+                                type="email"
+                                label="Email"
+                                className="col-span-2"
+                            />
+                            <div className="relative">
+                                <Button
+                                    variant="contained"
+                                    className=""
+                                    component="label"
+                                >
+                                    Upload Photos
+                                    <input
+                                        hidden
+                                        name="photo"
+                                        accept="image/*"
+                                        type="file"
+                                        onChange={(event) => {
+                                            setFieldValue(
+                                                "photo",
+                                                event.currentTarget.files[0]
+                                            );
+                                        }}
+                                    />
+                                </Button>
+                            </div>
+                            <Avatar
+                                src={
+                                    values.photo
+                                        ? URL.createObjectURL(values.photo)
+                                        : ""
+                                }
+                            />
+                            <Field
+                                component={TextField}
+                                name="phone"
+                                type="number"
+                                label="Phone"
+                            />
+                            <Field
+                                component={Select}
+                                name="blood_group"
+                                label="Blood Group"
+                            >
+                                <MenuItem value="">None</MenuItem>
+                                <MenuItem value="A+">A+</MenuItem>
+                                <MenuItem value="A-">A-</MenuItem>
+                                <MenuItem value="B+">B+</MenuItem>
+                                <MenuItem value="B-">B-</MenuItem>
+                                <MenuItem value="AB+">AB+</MenuItem>
+                                <MenuItem value="AB-">AB-</MenuItem>
+                                <MenuItem value="O+">O+</MenuItem>
+                                <MenuItem value="O-">O-</MenuItem>
+                            </Field>
+                            <Field
+                                component={TextField}
+                                name="nid"
+                                type="number"
+                                label="NID Number"
+                            />
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <Field
-                                component={DatePicker}
+                            <input
+                                className="border rounded h-14 px-3"
+                                type="date"
                                 name="dob"
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                                label="Date of Birth"
+                                placeholder="Date of Birth"
                             />
-                            <DatePicker
-                                onChange={(newValue) => {
-                                    setValue(newValue);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField {...params} />
-                                )}
-                            />
-                        </LocalizationProvider>
-                    </div>
-                </Form>
+                            <div className="col-span-2">
+                                <Button
+                                    type="submit"
+                                    size="large"
+                                    fullWidth
+                                    variant="contained"
+                                >
+                                    Register
+                                </Button>
+                            </div>
+                        </div>
+                    </Form>
+                )}
             </Formik>
         </div>
     );

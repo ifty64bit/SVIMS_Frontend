@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-io/dayjs": "^2.16.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.16",
     "@mui/x-date-pickers": "^5.0.9",
+    "axios": "^1.2.1",
     "dayjs": "^1.11.6",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
