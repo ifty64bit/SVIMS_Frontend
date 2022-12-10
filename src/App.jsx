@@ -10,6 +10,7 @@ import AuthLayout from "./util/AuthLayout";
 import reducer from "./reducer";
 import Dashboard from "./pages/Dashboard";
 import Verify from "./pages/Verify";
+import UserProfile from "./pages/admin/UserProfile";
 
 export const AppState = createContext(null);
 
@@ -30,6 +31,10 @@ function App() {
                             <Route index element={<AdminIndex />} />
                             <Route path="register" element={<RegisterUser />} />
                             <Route path="users" element={<UserList />} />
+                            <Route
+                                path="user/:id"
+                                element={<UserProfile />}
+                            />
                         </Route>
                     </Route>
                     <Route path="/verify/:token/:email" element={<Verify />} />
