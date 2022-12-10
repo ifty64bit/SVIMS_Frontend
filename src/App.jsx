@@ -5,9 +5,11 @@ import UserList from "./pages/admin/UserList";
 import AdminIndex from "./pages/AdminIndex";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import RegisterUser from "./pages/RegisterUser";
+import RegisterUser from "./pages/admin/RegisterUser";
 import AuthLayout from "./util/AuthLayout";
 import reducer from "./reducer";
+import Dashboard from "./pages/Dashboard";
+import Verify from "./pages/Verify";
 
 export const AppState = createContext(null);
 
@@ -23,12 +25,14 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route element={<AuthLayout />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="admin">
                             <Route index element={<AdminIndex />} />
                             <Route path="register" element={<RegisterUser />} />
                             <Route path="users" element={<UserList />} />
                         </Route>
                     </Route>
+                    <Route path="/verify/:token/:email" element={<Verify />} />
                 </Routes>
             </AppState.Provider>
         </>

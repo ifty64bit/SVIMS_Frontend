@@ -5,7 +5,7 @@ import { AppState } from "../App";
 
 function Header() {
     const [appState, dispatch] = useContext(AppState);
-    //const nav = useNavigate();
+    const nav = useNavigate();
     // useEffect(() => {
     //     if (!appState.isLoggedin) {
     //         nav("/login");
@@ -17,7 +17,9 @@ function Header() {
     return (
         <div className="w-screen bg-green-400 h-24 flex justify-between items-center px-4">
             <div>
-                <Button variant="contained">Home</Button>
+                <Link to={"/admin"}>
+                    <Button variant="contained">Home</Button>
+                </Link>
             </div>
             <div>
                 <Link to={"/"}>
@@ -26,16 +28,18 @@ function Header() {
             </div>
             <div>
                 {token ? (
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => dispatch({ type: "logout" })}
-                    >
-                        Logout
-                    </Button>
+                    <Link to="/login">
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => dispatch({ type: "logout" })}
+                        >
+                            Logout
+                        </Button>
+                    </Link>
                 ) : (
                     <Link to={"/login"}>
-                        <Button variant="contained" >Login</Button>
+                        <Button variant="contained">Login</Button>
                     </Link>
                 )}
             </div>

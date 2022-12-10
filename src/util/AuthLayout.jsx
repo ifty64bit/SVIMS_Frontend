@@ -4,7 +4,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 function AuthLayout() {
     const nav = useNavigate();
     useEffect(() => {
-        console.log(!localStorage.getItem("token"));
         if (!localStorage.getItem("token")) {
             nav("/login");
         }

@@ -5,7 +5,7 @@ export default function reducer(state, action) {
         case "logout":
             localStorage.removeItem("token");
             localStorage.removeItem("user_id");
-            return { ...state, isLoggedin: false };
+            return { isLoggedin: false };
         default:
             console.log("Default");
             return { ...state };

@@ -33,7 +33,11 @@ function Login() {
                     localStorage.setItem("token", data.token.token);
                     localStorage.setItem("user_id", data.token.user_id);
                     dispatch({ type: "login", payload: data });
-                    nav("/dashboard");
+                    if (data.role === "user") {
+                        nav("/dashboard");
+                    } else if (data.role === "admin") {
+                        nav("/admin");
+                    }
                 } catch (error) {
                     setMsg(error.response.data);
                 }

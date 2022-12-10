@@ -2,6 +2,7 @@ import { Button, Avatar, MenuItem } from "@mui/material";
 import { Formik, Field, Form } from "formik";
 import { TextField, Select } from "formik-mui";
 import * as Yup from "yup";
+import { axios } from "../../util/http";
 
 const RegistrationSchema = Yup.object().shape({
     first_name: Yup.string()
@@ -17,7 +18,6 @@ const RegistrationSchema = Yup.object().shape({
     phone: Yup.number().required("Phone is Required"),
     blood_group: Yup.mixed().required("Blood Group Required"),
     nid: Yup.number().required("NID Number is Required"),
-    dob: Yup.date().required("Date Of Birth Required"),
     address: Yup.string().required("Address is Required"),
 });
 
@@ -37,10 +37,27 @@ function RegisterUser() {
                     address: "",
                 }}
                 validationSchema={RegistrationSchema}
-                onSubmit={(values) => console.log(values)}
+                onSubmit={async (values) => {
+                    try {
+                        console.log(values);
+                        const { data } = await axios.post(
+                            "/users/user",
+                            values,
+                            {
+                                headers: {
+                                    "Content-Type": "multipart/form-data",
+                                },
+                            }
+                        );
+                        console.log(data);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }}
+                validate={(values) => console.log(values)}
             >
                 {({ values, setFieldValue }) => (
-                    <Form>
+                    <Form encType="multipart/form-data">
                         <div className="grid grid-cols-2 gap-4">
                             <Field
                                 component={TextField}
@@ -122,6 +139,16 @@ function RegisterUser() {
                                 type="date"
                                 name="dob"
                                 placeholder="Date of Birth"
+                                onChange={(e) =>
+                                    setFieldValue("dob", e.target.value)
+                                }
+                            />
+                            <Field
+                                component={TextField}
+                                name="address"
+                                type="text"
+                                label="Address"
+                                className="col-span-2"
                             />
                             <div className="col-span-2">
                                 <Button
